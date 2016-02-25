@@ -8,7 +8,7 @@ class Amazon
     Order.destroy_all
     orders.each do |order|
       customer = Customer.create(name: order['BuyerName'], email: order['BuyerEmail'])
-      order = Order.create(customer_id: customer.id, notes: order.to_s)
+      order = Order.create(customer_id: customer.id, notes: order.to_s, source: "amazon")
     end
   end
 
