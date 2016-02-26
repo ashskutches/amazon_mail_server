@@ -13,7 +13,7 @@ class Amazon
   private
 
   def raw_orders
-    @raw_orders ||= get_order_data_from_amazon
+    @raw_orders ||= get_order_data_from_amazon(days: 30)
   end
 
   def get_order_data_from_amazon(days: 5)

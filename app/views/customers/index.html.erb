@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Customers</h1>
-<h1><%= Customer.count %></h1>
+<h2> <%= "Listing Customers - #{Customer.count.to_s}" %> </h2>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Email</th>
+      <th>Orders</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,6 +17,7 @@
       <tr>
         <td><%= customer.name %></td>
         <td><%= customer.email %></td>
+        <td><%= customer.orders.count %></td>
         <td><%= link_to 'Show', customer %></td>
         <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
         <td><%= link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>

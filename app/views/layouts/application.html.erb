@@ -5,10 +5,24 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+<style>
+  nav li { float: left; width: 100px }
+</style>
 </head>
 <body>
+  <h1 id="logo"> Email Server </h1>
+  <nav>
+    <ul>
+      <li> <%= link_to("Customers", '/customers') %> </li>
+      <li> <%= link_to("Orders", '/orders') %> </li>
+      <li>
+        <%= link_to("Sync", '/sync/amazon') %> 
+      </li>
+    </ul>
+  </nav>
+  <div style="clear: both"></div>
+  <hr>
 
-<%= yield %>
-
+  <div style="width: 95%; margin: auto"> <%= yield %> </div>
 </body>
 </html>
