@@ -4,23 +4,22 @@ class Amazon
   end
 
   def sync
-    Customer.destroy_all
-    Order.destroy_all
-    orders.each do |order|
-      customer = Customer.create(name: order['BuyerName'], email: order['BuyerEmail'])
-      order = Order.create(customer_id: customer.id, notes: order.to_s, source: "amazon")
+    raw_orders.each do |raw_order|
+      customer = Customer.create_from_amazon_data(raw_order)
+      order = Order.create_from_amazon_data(customer, raw_order)
     end
-  end
-
-  def orders
-    @orders ||= (get_orders.parse['Orders']['Order'] rescue [])
   end
 
   private
 
-  def get_orders
-    yesterday = (Time.now - 6.day).iso8601
-    client.list_orders(created_after: yesterday)
+  def raw_orders
+    @raw_orders ||= get_order_data_from_amazon
+  end
+
+  def get_order_data_from_amazon(days: 5)
+    time_ago = (Time.now - days.day).iso8601
+    response = client.list_orders(created_after: time_ago)
+    return (response.parse['Orders']['Order'] rescue [])
   end
 
   def handle_errors
