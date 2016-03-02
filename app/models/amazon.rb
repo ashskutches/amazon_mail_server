@@ -24,9 +24,9 @@ class Amazon
 
   def handle_errors
     MWS::Orders::Client.on_error do |e|
-      if e.response.status == 503
-        logger.warn e.response.message
-      end
+      puts "---Amazon---ERROR---"
+      puts e
+      puts e.try(:reponse.message)
     end
   end
 

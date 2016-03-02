@@ -13,6 +13,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'pg', '~> 0.15'
 gem 'peddler'
 gem 'pry'
+gem 'gibbon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
