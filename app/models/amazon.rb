@@ -6,7 +6,9 @@ class Amazon
   def sync
     raw_orders.each do |raw_order|
       customer = Customer.create_from_amazon_data(raw_order)
-      order = Order.create_from_amazon_data(customer, raw_order)
+      if customer
+        order = Order.create_from_amazon_data(customer, raw_order)
+      end
     end
   end
 
