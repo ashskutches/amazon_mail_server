@@ -1,6 +1,6 @@
 class AmazonMailChimp < MailChimp
   def add_new_amazon_customers_to_mailchimp
-    amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon'} ).distinct
+    amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon', follow_up_email_sent: false} ).distinct
     amazon_customers.each do |customer|
       subscribe_amazon_user(customer)
     end
@@ -8,6 +8,7 @@ class AmazonMailChimp < MailChimp
 
   def subscribe_amazon_user(customer)
     begin
+      customer.update(follow_up_email_sent: true)
       #if customer.name.nil? || customer.email.nil?
       name = customer.name.scan(/^(\w+)[ .,](.+$)/).flatten
       client.lists(amazon_list['id']).members.create(
