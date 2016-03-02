@@ -1,6 +1,6 @@
 class Customer < ActiveRecord::Base
   validates :email, uniqueness: true
-  validates_presence_of :email, :name
+  validates_presence_of :email
 
   has_many :orders
 
