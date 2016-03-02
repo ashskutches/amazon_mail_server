@@ -1,19 +1,15 @@
 class AmazonMailChimp < MailChimp
-    def add_new_amazon_customers_to_mailchimp
-      amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon'} ).distinct
-      amazon_customers.each do |customer|
-        subscribe_amazon_user(customer)
-      end
+  def add_new_amazon_customers_to_mailchimp
+    amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon'} ).distinct
+    amazon_customers.each do |customer|
+      subscribe_amazon_user(customer)
+    end
   end
 
   def subscribe_amazon_user(customer)
     begin
       #if customer.name.nil? || customer.email.nil?
       name = customer.name.scan(/^(\w+)[ .,](.+$)/).flatten
-      puts "Creating"
-      puts "===="
-      puts name
-      puts "===="
       client.lists(amazon_list['id']).members.create(
         body: {
         email_address: customer.email,
@@ -34,12 +30,8 @@ class AmazonMailChimp < MailChimp
     lists.select { |l| l['name'] = "amazon" }.first
   end
 
-  def unsubscribe_amazon_users
+  def delete_amazon_users_off_mailchimp
     begin
-      100.times { puts "\n" }
-      puts "===="
-      puts "Existing Amazon list needs to be unsubscribed."
-      puts "===="
       amazon_members.each do |member|
         client.lists(amazon_list['id']).members(member['id']).delete
       end
