@@ -8,7 +8,7 @@ class AmazonMailChimp < MailChimp
 
   def subscribe_amazon_user(customer)
     begin
-      customer.update(follow_up_email_sent: true)
+      customer.orders.update_all(follow_up_email_sent: true)
       #if customer.name.nil? || customer.email.nil?
       name = customer.name.scan(/^(\w+)[ .,](.+$)/).flatten
       client.lists(amazon_list['id']).members.create(
