@@ -2,11 +2,16 @@
 
 <h2> <%= "Listing Orders - #{Order.count.to_s}" %> </h2>
 
+
 <table>
   <thead>
     <tr>
       <th>Customer</th>
       <th>Notes</th>
+      <th>Amount</th>
+      <th>Source</th>
+      <th>Date Created</th>
+      <th>Follow Up Email Sent</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,6 +22,9 @@
         <td><%= link_to order.customer.name, "/customers/#{order.customer.id}" %></td>
         <td><%= order.status %></td>
         <td><%= order.amount %></td>
+        <td><%= order.source %></td>
+        <td><%= order.date_created_on_amazon.strftime("%B %d, %Y") %></td>
+        <td><%= order.follow_up_email_sent %></td>
         <td><%= link_to 'Show', order %></td>
         <td><%= link_to 'Edit', edit_order_path(order) %></td>
         <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -10,7 +10,8 @@ class Order < ActiveRecord::Base
       source: "amazon",
       amount: (order_data['OrderTotal']['Amount'].to_f rescue 0.00),
       status: order_data['OrderStatus'],
-      uid: order_data['AmazonOrderId']
+      uid: order_data['AmazonOrderId'],
+      date_created_on_amazon: order_data['PurchaseDate'].to_datetime
     )
   end
 end

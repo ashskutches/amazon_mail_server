@@ -15,13 +15,13 @@ class Amazon
   private
 
   def raw_orders
-    @raw_orders ||= get_order_data_from_amazon(days: 30)
+    @raw_orders ||= get_order_data_from_amazon(BusinessDayCalculator.business_days_ago(7))
   end
 
-  def get_order_data_from_amazon(days: 5)
-    time_ago = (Time.now - days.day).iso8601
+  def get_order_data_from_amazon(date)
+    time_ago = date.iso8601
     response = client.list_orders(created_after: time_ago)
-    return (response.parse['Orders']['Order'] rescue [])
+    (response.parse['Orders']['Order'] rescue [])
   end
 
   def handle_errors
