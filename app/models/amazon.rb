@@ -15,7 +15,7 @@ class Amazon
   private
 
   def raw_orders
-    @raw_orders ||= get_order_data_from_amazon(BusinessDayCalculator.business_days_ago(7))
+    @raw_orders ||= get_order_data_from_amazon(BusinessDayCalculator.business_days_ago(8))
   end
 
   def get_order_data_from_amazon(date)

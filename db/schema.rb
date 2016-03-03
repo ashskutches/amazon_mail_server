@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160303010750) do
     t.string   "status"
     t.float    "amount"
     t.string   "uid"
-    t.datetime "date_created_on_amazon"
+    t.date     "date_created_on_amazon"
   end
 
 end

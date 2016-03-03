@@ -2,7 +2,7 @@ class BusinessDayCalculator
 
   def self.business_days_ago(how_many_business_days_ago)
     days_traveled = 0
-    date = Time.now
+    date = Date.today
 
     while days_traveled != how_many_business_days_ago
       date = date - 1.day
