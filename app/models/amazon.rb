@@ -19,9 +19,19 @@ class Amazon
   end
 
   def get_order_data_from_amazon(date)
+    puts "Getting Order Data"
     time_ago = date.iso8601
+    puts "Get Orders"
     response = client.list_orders(created_after: time_ago)
-    (response.parse['Orders']['Order'] rescue [])
+    orders = (response.parse['Orders']['Order'] rescue [])
+    orders.each do |order|
+      puts "Get Order Details"
+      sleep 1
+      product_response = client.list_order_items(order['AmazonOrderId']).parse
+      order["Title"] = (product_response['OrderItems']['OrderItem']["Title"] rescue nil)
+      order["ASIN"] = (product_response['OrderItems']['OrderItem']["ASIN"] rescue nil)
+    end
+    return orders
   end
 
   def handle_errors

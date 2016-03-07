@@ -11,7 +11,9 @@ class Order < ActiveRecord::Base
       amount: (order_data['OrderTotal']['Amount'].to_f rescue 0.00),
       status: order_data['OrderStatus'],
       uid: order_data['AmazonOrderId'],
-      date_created_on_amazon: order_data['PurchaseDate'].to_datetime
+      date_created_on_amazon: order_data['PurchaseDate'].to_datetime,
+      title: order_data['Title'],
+      asin: order_data['ASIN']
     )
   end
 end
