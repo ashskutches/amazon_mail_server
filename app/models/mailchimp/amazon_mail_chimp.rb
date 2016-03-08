@@ -9,6 +9,7 @@ class AmazonMailChimp < MailChimp
   def subscribe_amazon_user(customer)
     begin
       name = customer.name.scan(/^(\w+)[ .,](.+$)/).flatten
+      name = [customer.name, " "] if name.empty?
       order = customer.orders.first
       client.lists(amazon_list['id']).members.create(
         body: {
@@ -16,10 +17,10 @@ class AmazonMailChimp < MailChimp
         status: "subscribed",
         merge_fields: {FNAME: name.first, LNAME: name.last, ASIN: order.asin, ORDER_ID: order.uid, TITLE: order.title}
       })
+      customer.orders.update_all(follow_up_email_sent: true)
     rescue Gibbon::MailChimpError=>e
       puts e
     end
-    customer.orders.update_all(follow_up_email_sent: true)
   end
 
   def amazon_members
