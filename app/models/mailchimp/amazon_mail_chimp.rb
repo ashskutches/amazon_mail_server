@@ -1,6 +1,12 @@
 class AmazonMailChimp < MailChimp
   def add_new_amazon_customers_to_mailchimp
-    amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon', follow_up_email_sent: false, date_created_on_amazon: BusinessDayCalculator.business_days_ago(7)} ).distinct
+    business_day = BusinessDayCalculator.business_days_ago(7)
+    if business_day.monday?
+      day_range = [(business_day - 2), business_day]
+    else
+      day_range = business_day
+    end
+    amazon_customers = Customer.joins(:orders).where(orders: { source: 'amazon', follow_up_email_sent: false, date_created_on_amazon: day_range} ).distinct
     amazon_customers.each do |customer|
       subscribe_amazon_user(customer)
     end

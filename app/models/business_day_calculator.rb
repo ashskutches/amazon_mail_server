@@ -11,6 +11,8 @@ class BusinessDayCalculator
     return date
   end
 
-  def self.calculate_date_to_send_follow_up_email(date)
+  def self.regular_days_ago(how_many_business_days_ago)
+    date = Date.today - how_many_business_days_ago
   end
+
 end
