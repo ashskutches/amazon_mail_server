@@ -14,6 +14,7 @@ class AmazonMailChimp < MailChimp
 
   def subscribe_amazon_user(customer)
     begin
+      puts "Subscribing - #{customer.name}"
       name = customer.name.scan(/^(\w+)[ .,](.+$)/).flatten
       name = [customer.name, " "] if name.empty?
       order = customer.orders.first
@@ -24,6 +25,7 @@ class AmazonMailChimp < MailChimp
         merge_fields: {FNAME: name.first, LNAME: name.last, ASIN: order.asin, ORDER_ID: order.uid, TITLE: order.title}
       })
       customer.orders.update_all(follow_up_email_sent: true)
+      puts "*subscribed*"
     rescue Gibbon::MailChimpError=>e
       puts e
     end
