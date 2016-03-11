@@ -4,6 +4,8 @@ class Customer < ActiveRecord::Base
 
   has_many :orders
 
+  before_save :format_name
+
   def self.create_from_amazon_data(order_data)
     customer = Customer.find_or_create_by(email: order_data['BuyerEmail'])
     if customer.errors.count == 0
@@ -12,5 +14,9 @@ class Customer < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  def format_name
+    self.name.titleize
   end
 end
