@@ -17,6 +17,6 @@ class Customer < ActiveRecord::Base
   end
 
   def format_name
-    self.name.titleize
+    self.name.titleize if self.name
   end
 end
