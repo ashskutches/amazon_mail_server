@@ -4,6 +4,7 @@ class AmazonController < ApplicationController
   def sync
     @mailchimp.delete_amazon_users_off_mailchimp
     if @amazon.sync
+      sleep 10
       @mailchimp.add_new_amazon_customers_to_mailchimp
       redirect_to '/customers', notice: 'Sync was successful!'
     else
