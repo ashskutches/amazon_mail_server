@@ -1,6 +1,6 @@
 class AmazonMailChimp < MailChimp
-  def add_new_amazon_customers_to_mailchimp
-    business_day = BusinessDayCalculator.business_days_ago(7)
+  def add_new_amazon_customers_to_mailchimp(days_ago = 7)
+    business_day = BusinessDayCalculator.business_days_ago(days_ago)
     if business_day.monday?
       day_range = [(business_day - 2), business_day]
     else

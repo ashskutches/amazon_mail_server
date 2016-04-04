@@ -3,8 +3,8 @@ class Amazon
     handle_errors
   end
 
-  def sync
-    raw_orders.each do |raw_order|
+  def sync(days_ago = 8)
+    raw_orders(days_ago).each do |raw_order|
       customer = Customer.create_from_amazon_data(raw_order)
       if customer
         order = Order.create_from_amazon_data(customer, raw_order)
@@ -14,8 +14,8 @@ class Amazon
 
   private
 
-  def raw_orders
-    date = Date.today - 8
+  def raw_orders(days_ago = 8)
+    date = Date.today - days_ago
     @raw_orders ||= get_order_data_from_amazon(date)
   end
 
