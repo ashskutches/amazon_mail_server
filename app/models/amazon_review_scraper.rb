@@ -2,9 +2,8 @@ require 'nokogiri'
 require 'open-uri'
 
 class AmazonReviewScraper
-  def initialize(_amazon_account)
-    @amazon_account = _amazon_account
-    @report ||= Report.new(@amazon_account)
+  def initialize
+    @report ||= Report.new
   end
 
   def collect_product_asins
@@ -23,24 +22,29 @@ class AmazonReviewScraper
     "http://amazon.com/product-reviews/#{asin}"
   end
 
-  def create_all_the_reviews
+  def get_product_page(asin)
     begin
-      product_asins.each do |asin|
-        doc = Nokogiri::HTML(open(product_url(asin)))
-        review_section = doc.css("#cm_cr-review_list")
-        reviews = review_section.children
-        reviews.each do |html|
-          Review.create_from_html(@amazon_account.id, html)
-        end
-        sleep(30)
-      end
+      Nokogiri::HTML(open(product_url(asin)))
     rescue OpenURI::HTTPError => error
-      response = error.io
       puts "ERROR"
-      puts response.status
-      # => ["503", "Service Unavailable"]
-      puts response.string
-      # => <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html DIR=\"LTR\">\n<head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"><meta name=\"viewport\" content=\"initial-scale=1\">...
+      puts error.io.status
+      #puts error.io.string
+      return false
+    end
+  end
+
+  def create_all_the_reviews
+    product_asins.each do |asin|
+      product_page = get_product_page(asin)
+      while product_page == false
+        sleep(1.5)
+        product_page = get_product_page(asin)
+      end
+      review_section = product_page.css("#cm_cr-review_list")
+      reviews = review_section.children
+      reviews.each do |html|
+        Review.create_from_html(asin, html)
+      end
     end
   end
 

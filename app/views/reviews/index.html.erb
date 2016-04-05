@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th> ASIN </th>
       <th> Author </th>
       <th> Rating </th>
       <th> Content </th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @reviews.order(:date_created_on_amazon).reverse.each do |review| %>
       <tr>
+        <td><%= review.asin %> </td>
         <td><%= review.author_name %> </td>
         <td><%= review.rating %> </td>
         <td><%= review.content %> </td>

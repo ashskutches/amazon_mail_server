@@ -1,8 +1,8 @@
 class Review < ActiveRecord::Base
-  def self.create_from_html(account_id, html)
+  def self.create_from_html(asin, html)
     Review.find_or_create_by(
-      amazon_account_id: account_id,
       rating: star_rating(html),
+      asin: asin,
       author_name: html.css('.author').text,
       date_created_on_amazon: html.css('.review-date').text.to_date,
       content: html.css('.review-text').text,
