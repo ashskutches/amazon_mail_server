@@ -13,7 +13,7 @@ class Report
     @type_name = params[:type] || 'listing'
     self.type = Report::TYPES[@type_name.to_sym]
     handle_errors
-    generate_report_on_amazon
+    #generate_report_on_amazon
     retrieve_report_from_amazon
   end
 
