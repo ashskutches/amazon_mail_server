@@ -27,7 +27,10 @@ class AmazonMailChimp < MailChimp
       customer.orders.update_all(follow_up_email_sent: true)
       puts "*subscribed*"
     rescue Gibbon::MailChimpError=>e
-      puts e
+      puts "Subscription ERROR: "
+      puts "========="
+      puts e.body['errors']
+      puts "========="
     end
   end
 
@@ -42,6 +45,7 @@ class AmazonMailChimp < MailChimp
   def delete_amazon_users_off_mailchimp
     begin
       amazon_members.each do |member|
+        puts "Deleting member: #{member['id']}"
         client.lists(amazon_list['id']).members(member['id']).delete
       end
     rescue Gibbon::MailChimpError=>e
