@@ -12,7 +12,7 @@ class AmazonController < ApplicationController
       sleep 10
       puts "======="
       puts "Adding new Amazon Customers"
-      @mailchimp.add_new_amazon_customers_to_mailchimp(8)
+      @mailchimp.add_new_amazon_customers_to_mailchimp(7)
       redirect_to '/customers', notice: 'Sync was successful!'
     else
       render :new, failure: "Something went wrong"
